@@ -1,0 +1,277 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 2.07.57 PM.png \width11820 \height4780 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+Alerts and ActionSheets :-\
+Way to notify user when a extraordinary event happens or help user make a branching decision where to go now in the app where it's kind of 2 or 3 choices where they kind of go \
+\
+\
+Notification and KVO :-\
+That a way of communicating blind and structured inside of our MVC \
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 Alerts and ActionSheets \
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 2.41.49 PM.png \width14140 \height8020 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 These 2 things are very similar the API to use them is almost identical \
+\
+\
+They are like bit different \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 Alert(disruptive decision )  (Alerts looks exactly the same in both iPad and iPhones )\
+ActionSheet(branching decision) (iPad as a popOver iPhone is slides up)
+\b0 \
+\
+
+\b An alert pops up in the middle of the screen
+\b0  \
+
+\b They are both modal they kind of take over your screen 
+\b0 \
+
+\b But alert pops up in the middle
+\b0  \
+
+\b Generally whatever the alert is telling you or asking you , you are only gonna have 1 or maybe 2 choices to respond 
+\b0 \
+Its would be unusual to have an alert even with 3 buttons in \
+\
+
+\b Its usually for asynchronous things , things like a network failure or something that happens out of the ordinary
+\b0  \
+You dont wanna use an alert as just a way to talk to your  user and ask them a yes or no question \
+Alerts are pretty
+\b  disruptive to the user interface experience because they lock out the entire app and force you to deal with this thing.
+\b0 \
+So its not a primary kind of a user interface element its more of an emergency situation asynchronous unusual that kind of thing \
+\
+\
+Now an action Sheet is similar in that its modal takes over the entire screen but here you are almost always going to have more than 2 choices  \
+
+\b This things slides up from bottom you are gonna usually have 2 3 4 5 choices even
+\b0  \
+
+\b here what you are doing is asking the user to make a branching decision 
+\b0 \
+may be they have asked to take a picture to get a picture in their app and you wanna know do you want it from camera ?  or you want it from photo library or do you want it from somewhere else \
+So they are kind of branching right there and you cant  really help them until they make that decision for you so that's what an actionSheet is for\
+Its not like an alerting that its for unusual circumstances it's kind of a normal branching decision that you would have to make \
+\
+\
+\
+Here's what they look in actionSheet\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 2.42.37 PM.png \width14520 \height8160 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+Action Sheet Slides up from the bottom \
+pretty much can have any number of buttons , obviously who would want to fill the whole screen \
+\
+Alert comes in the middle of the screen , they might even have a textfield in them as well \
+\
+API for them is almost identical \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 So way both of them work is , They are both UIViewControllers\
+Nothing special about them UIViewController\
+Modally putting ViewController (Takes over the whole screen until we say dismiss)
+\b0 \
+Same thing here with alerts and actionSheets\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 3.17.20 PM.png \width14680 \height8500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+ \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 3.18.24 PM.png \width14500 \height8240 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+This UIAlertController is a UIViewController and we just gonna present it exactly the same way used to present our document \
+its called present But we not gonna do it by getting it out of storyboard like we did it with document we are gonna create it with initializer \
+UIAlertController(title: , message: preferredStyle : )\
+So title is just a title You can see in the pic below \
+And the message goes below that \
+And preferred Style is either    actionSheet or Alerts\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 Now you create actionSheets and then you wanna add actions 
+\b0 \
+These actions corresponds to buttons\
+So we have 4 actions  in our example \
+4 times we gonna call addAction here \
+\
+The argument for addAction is UIAlertAction which is another object \
+(*****)\
+and lets take  a look a UIAlertAction\
+It takes a title (that appears on button)  , \
+style (.default , .destructive , .cancel   )\
+
+\b .destructive shows up in red text (Its any choice that is going to make us kind of significant unrecoverable action happen , for e.g. you gonna delete something out of database , that might be destructive action) \
+.cancel (it causes it to be separated but a very important other thing about .cancel is that on the iPad this thing is not going to slide up from the bottom it's going to appear in a popover  )\
+PopOver(Is also kind of modal , it takes over the screen but its appears in a little window and in there you cant have a cancel button because the popover is cancelled by touching somewhere else  , popover comes up if you want to touch somewhere else , so you dont need a cancel  and you dont want to cancel button )
+\b0 \
+That's why its important to note which of your buttons are cancel button , so when this appears in a popover the actionSheet here wont include that cancel button \
+\
+and a handler (handler is just an closure that you gonna give it , it takes an actions as an argument so that its near at hand and you are gonna do whatever you do when that button gets clicked )\
+\
+\
+\
+so this alert and actionSheet as a very simple API \
+You just put these buttons and  the code that goes with them on each one\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 9.00.58 PM.png \width14440 \height8400 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+Now we want this thing to slideUp to the bottom and let the user choose and execute the appropriate handler  and we do it with same method present\
+Viewcontroller method present presumably the viewcontroller behind there the picture of cassini that viewcontroller is presenting this actionSheet and know it present the viewController animated true
+\b  almost always and then completion handler if you want for which will get called when the animation finishes
+\b0  \
+\
+\
+Lets look at how it looks on iPad though \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 9.01.49 PM.png \width15600 \height7460 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 9.38.22 PM.png \width19240 \height10580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+It's a popOver This is what it would look like \
+In this case you see that little redeploy button (upper right of  iPad when I click that this actionSheet is presented)\
+\
+First of all how I get it to present like that and then second all how do I get it to point it to that little deploy button\
+(****)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 1)To present it as a popOver \
+We have to set alert which is a ViewController \
+alert.modalPresentationStyle = .popover\
+That's gonna make it to present it as a popOver
+\b0 \
+ but that's not quite enough because I have to make a little point to that redeploy bar button item\
+\
+
+\b let ppc = alert.popoverPresentationController\
+ppc?.barButtonItem = redeployBarButtonItem\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 And the way I do that is i get the alerts popover presentationController which will be nil if you are not presenting it as popover \
+And one of the var in the popOver in a popover presentation Controller is the bar button item that is presenting it \
+You can also specify a rectangle an arbitrary rectangle and the little triangle will point at that when it appears \
+And you can also specify which direction the little arrow is allowed to point left , right , up or down and that way you can control the way this popover presents it
+\b0 \
+\
+now you will say if I am on iPad then do this around this because obviously on iPhone i dont want this thing to be a popOver\
+ but actually you dont have to do that because this exact same code will slide up from the bottom  on iPhone\
+ now why does that happen we have specifically asked for the popOver presentation style there and we have specified the bar button item there?\
+Well iOS automatically does what we call adapting to the environment its in both the trait environment (compact width and height)  but also the platform its on some extent \
+So here it notices whoa I am on an iPhone i dont do popOvers actually , you can actually do popover on iPhone but you have to do extraordinary things to do that So in normal case event it doesnt do popovers so it comes over and its normal way \
+So you are doing popOver and you have a universal app that runs on both iPad and iPhone you are gonna put this modal presentation stuff\
+\
+\
+\
+\
+\
+\
+\
+Lets talk about alerts\
+same exact constructor you just say preferredStyle = .alert  \
+same exact adding actions \
+here I am marking it as .cancel less important in an alert because it doesnt hide the cancel button in any case \
+Alerts looks exactly the same in both iPad and iPhones \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 9.38.08 PM.png \width18140 \height10040 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Then here I am gonna add my login button \
+Now my login button is going to use that textField \
+\
+So how do made textField appear in my alert???\
+I just said alert.addtextField() argument to that textField is a closure that passes a closure the textField to you and allows you to configure it \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-08 at 9.39.22 PM.png \width18580 \height10360 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 So this a password for redeploying cassini off to sun or titan or anything \
+So I want it to have a secure text entry So I am  gonna use textField Var    \
+isSecureText  which is a part of textFieldInput traits protocol that textFields implements \
+\
+You can do this more than once , you can have more than 1 textField I recommend against that and I generally recommend against using an alert as a login screen \
+if you have a login screen make it a normal part of your UI dont have it to be an alert \
+\
+But once you get this textField added with this and configured then how do you get the text out when someones types the text\
+Well in your handler of the action for login i am just gonna use the var that's in alert called textField it's an array of the all the textFields , I only have 1 , So I am gonna use first one  and then I am gonna get the text out of it \
+\
+\
+Then we present it\
+All present does is presents the ViewController modally , of course this is a mode because the whole screen is dimmed out except for this middle box \
+\
+And As I said on the iPad alerts looks exactly the same  \
+\
+\
+\
+Right now  in EmojiArt if you put any Image into it , it will work and that because I have that image fetcher\
+Image Fetcher allows you to specify a backup image , So if I cant get the image from the URL with the imageFetcher no problem I will use the backup image and create the one on disk and use that as an URL \
+well that solution doesnt really work too well in iCloud Drive \
+because I create the EmojiArt Document on my iPad I dragged in something That I couldnt get it to URL \
+so i just put the image locally I put it on iCloud drive \
+I go over to my iPhone I look at it and I cant see it because its in backup image which is on my iPad \
+\
+So I am gonna fix my EmojiArt just to simply not accept those things \
+So if you drag in something that I cant get its image from URL I am just gonna reject it \
+Now I can just quietly reject it and user will be probably like what going on I keep dragging and It wont take it  ? \
+But it had be much better if I put up an Alert and said I couldnt get the image from that URL sorry \
+So that's what we gonna do \
+\
+however once I got used to that then I probably dont want it coming up everytime \
+Because I do get the feedback when I drag in a bad image it just does nothing and eventually I will learn that when I cant drag in and know how to pick something else , So i am gonna have my alerts have 2 buttons \
+1) keep warning me about this \
+2) stop warning me about this \
+\
+Those are only 2 buttons on my alerts and alert otherwise just gonna say I couldnt get the image from that URL }
