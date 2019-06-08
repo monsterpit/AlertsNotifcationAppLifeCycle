@@ -308,6 +308,56 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
     
     var imageFetcher : ImageFetcher!
     
+    private var suppressBadURLWarnings = false
+    
+    private var previousBadURL : URL?
+    
+    private func presentBadURLWarning(for url : URL?){
+        
+        
+        if !suppressBadURLWarnings || previousBadURL != url{
+        
+            previousBadURL = url
+            
+            let alert = UIAlertController(
+                title: "Image Transfer Failed",     // dont be technical like Image failed due to URL
+                message: "Couldnt transfer the dropped image from its source. \n Show this warning in the future",
+                preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(
+                title: "Keep Warning",
+                 style: .default
+            ))
+            
+            //Lot of times cancel buttons and Ok buttons they dont have any actions by default they dont do anything and that's this is kind of like an OK button in a way
+            /*
+             Having buttons in alert yes or no
+             This forces the person go carefully read and parse the message you said and they dont get any double-check that they read it right before they press yes or no
+             So always try to pick things that are more descriptive than yes or no like keep this warning or stop this warning
+             So still have to brief you dont want the use to have 10 words on them
+             So its a comprise  between brevity and making sure  person understand
+             Now I am gonna call it destrutive because its gonna stop it doing something that it does prety much permanently
+             Unless I go and add that feature of what I compare the URL's and turn it back on So I am gonna set it to destructive
+             So its gonna turn out red and its gonna make user think a little bit before they press that which is exaclty what we want
+     */
+            alert.addAction(UIAlertAction(
+                title: "Stop Warning",
+                style: .destructive,
+                handler: { (action) in
+                    /*action we usually dont need it because we can capture it using a closure capture this action
+                     although since we add it like this you dont have a local var to this action so its kind of nice that passes it we dont need it in any case
+                     All we need to do is set some var that says suppress this warnings
+                     */
+                    
+                    self.suppressBadURLWarnings = true
+            }
+            ))
+            
+            present(alert,animated: true)
+        
+        }
+    }
+    
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         
         imageFetcher = ImageFetcher(){ (url,image) in
@@ -330,8 +380,38 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
         
         
         session.loadObjects(ofClass: NSURL.self) { (nsurls) in
+            //This closure 1 that load objects this one is a  convience method it calls on the main queue So this closure is on the main queue
+            //So  i dont want that I want it to dispatch off of my main Queue
             if let url = nsurls.first as? URL{
-                self.imageFetcher.fetch(url)
+               // self.imageFetcher.fetch(url)
+                
+                DispatchQueue.global(qos: .userInitiated).async {
+                    //Sometime you have to massage the URL to get the right thing out of there
+                    if let  imageData = try? Data(contentsOf: url.imageURL), let image = UIImage(data: imageData){
+                        
+                        DispatchQueue.main.async {
+                            self.emojiArtBackImage = (url,image)
+                            self.documentChanged()
+                        }
+                        
+                    }else{
+                        /*
+                         Why I am passing URL along?
+                         I am not gonna do that due to time reasons you know what would be a cool thing is
+                         someone dragged something in It puts up the alert , they are like dont warn me again and they say stop
+                         But then they drag other one in and it doesnt work and then they try another one and it doesnt work and then they are like its broken , they kind of forgetten that they have said stop warning me that ,
+                         So somehow you might want that alert to comeback on somepoint
+                         And what would be a cool way to do that ?
+                         How about they dragged in same URL in twice because that's them saying
+                         Oh drag it in , oh that didnt work let me try again
+                         okay well if you are trying again they probably forgot about that alert maybe maybe not but its likely
+                         So thats a kind of thing you can do it in your UI
+                         your  why that's a little tricky that allows them to turn things like that back on without having them to go to setting somewhere and turn it on which is really cumbersome its just kind of using their natural things that  they are doing in their UI you can make decision of these
+                         That why I am passing that URL on because I might want to check to see if this the same URL
+ */
+                        self.presentBadURLWarning(for : url)
+                    }
+                }
             }
         }
         session.loadObjects(ofClass: UIImage.self) { (images) in
