@@ -409,7 +409,9 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
                          your  why that's a little tricky that allows them to turn things like that back on without having them to go to setting somewhere and turn it on which is really cumbersome its just kind of using their natural things that  they are doing in their UI you can make decision of these
                          That why I am passing that URL on because I might want to check to see if this the same URL
  */
+                        DispatchQueue.main.async {
                         self.presentBadURLWarning(for : url)
+                        }
                     }
                 }
             }
