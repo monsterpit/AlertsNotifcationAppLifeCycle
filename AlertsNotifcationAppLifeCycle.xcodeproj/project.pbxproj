@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C762E7F22B60B8D007B4E90 /* Notifications And KVO.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 2C762E7E22B60B8D007B4E90 /* Notifications And KVO.rtfd */; };
+		2CAEFF4922B67EFD00EC6953 /* LifeCycleOfApp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEFF4822B67EFD00EC6953 /* LifeCycleOfApp.rtfd */; };
 		2CF9F33922ABAB4D00C6F693 /* AlertsActionSheet.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 2CF9F33822ABAB4D00C6F693 /* AlertsActionSheet.rtfd */; };
 		6B164D4622A65AEE00C78818 /* EmojiArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B164D4222A65AEE00C78818 /* EmojiArtView.swift */; };
 		6B164D4722A65AEE00C78818 /* EmojiArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B164D4322A65AEE00C78818 /* EmojiArtViewController.swift */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		2C762E7E22B60B8D007B4E90 /* Notifications And KVO.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = "Notifications And KVO.rtfd"; sourceTree = "<group>"; };
+		2CAEFF4822B67EFD00EC6953 /* LifeCycleOfApp.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = LifeCycleOfApp.rtfd; sourceTree = "<group>"; };
 		2CF9F33822ABAB4D00C6F693 /* AlertsActionSheet.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = AlertsActionSheet.rtfd; sourceTree = "<group>"; };
 		6B164D4222A65AEE00C78818 /* EmojiArtView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtView.swift; sourceTree = "<group>"; };
 		6B164D4322A65AEE00C78818 /* EmojiArtViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				6B164D5022A65B3600C78818 /* Junk */,
 				2CF9F33822ABAB4D00C6F693 /* AlertsActionSheet.rtfd */,
 				2C762E7E22B60B8D007B4E90 /* Notifications And KVO.rtfd */,
+				2CAEFF4822B67EFD00EC6953 /* LifeCycleOfApp.rtfd */,
 				6B926C1922A64BAB008936E0 /* Info.plist */,
 			);
 			path = AlertsNotifcationAppLifeCycle;
@@ -171,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CAEFF4922B67EFD00EC6953 /* LifeCycleOfApp.rtfd in Resources */,
 				6B926C1822A64BAB008936E0 /* LaunchScreen.storyboard in Resources */,
 				2CF9F33922ABAB4D00C6F693 /* AlertsActionSheet.rtfd in Resources */,
 				6B926C1522A64BAB008936E0 /* Assets.xcassets in Resources */,

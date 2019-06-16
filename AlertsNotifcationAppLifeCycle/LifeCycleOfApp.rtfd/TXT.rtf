@@ -1,0 +1,358 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+
+\f0\b\fs24 \cf0 \
+LifeCycle Of App\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 7.13.43 PM.png \width13100 \height8320 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+First stage is\
+Foreground inactive where your code is running but you are not getting any UI events , so you cant do anything \
+You can do only preparation work in this space \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.00.29 PM.png \width12480 \height8420 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+then there's foreground active \
+this is the normal state you are used to \
+getting UI events do view controllers , coming on screen segueing , you doing all stuff this is normal running state of your app \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.01.01 PM.png \width13280 \height7980 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+Then there's background \
+In the background your code is running , you are not getting the UI events , you never live here for long maybe 30 seconds , so this is a 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+transitory 
+\f0 \cf0 \kerning1\expnd0\expndtw0 state\
+So anything you do in the background state you got to do it fast \
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.01.18 PM.png \width12660 \height8180 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+and then you go in state suspended\
+here your code is not running it's important to understand no code in your app anywhere runs \
+your app is not getting any CPU cycles \
+Now what's important about this state is that you could be killed at anytime at this state\
+\
+\
+\
+So let's talk about how we transition here \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.01.36 PM.png \width11740 \height8160 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+1) Transition is launching your app , \
+So when you are launching the app you go from not running or your binary is not even executing \
+to briefly the foreground inactive state\
+ and then foreground active state \
+You do pass through foreground inactive state briefly on your way to running when you launch \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.02.02 PM.png \width12400 \height8440 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+2)Now another important 1 is when you switch to another app \
+So you are the active app some1's using you and then they switch to another app \
+and when that happens you go up to foreground inactive for just a moment \
+and then all the way down to  background \
+you sit in the background for maybe 30 seconds and then you move to suspended \
+and now from suspended you either get reactivated if they come back to you or you get killed at some point \
+So those are transitory(not permanent)\
+and when you get killed you go directly from suspended to not running \
+You dont pass through some state where you get to run any code \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.02.24 PM.png \width13080 \height8200 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+\
+\
+\
+\
+\
+So lets talk about how you get notified for all of these transitions what happens and what you are supposed to do \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.31.40 PM.png \width15200 \height8120 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+ \
+Now all these things I am going to tell you btw , not really that important because alot of things are taken care for you\
+for e.g. UIDocument  you notice when we threaten to go to another app it automatically auto saved \
+It knows about this transitions its doing that for you , So dont need to do anything and that's true of a lot of things in iOS \
+So i am gonna show you all these things and there's way \
+But most of time you  dont need to do anything \
+But just need to know that these transitions are happening \
+\
+\
+So first transition is from not running into inactive foreground  \
+This is kind of like preparing your app \
+when this happens like all the things that happens here\
+A method in your AppDelegate.swift \
+Btw all this transitions are also broadcast on radioStation\
+So you can just signup and put a closure and when these transition happens a closure can be executed \
+\
+\
+ApplicationWillFinishLaunching (withOptions)\
+ApplicationDidFinishLaunching (withOptions)\
+because thats one of the first times you actually able to run your own code and notice that thing has a little dictionary passed in\
+That dictionary tells you why where you launched \
+\
+Now why would you be launched , ofcourse user might have touched on your icon that's most of the time \
+but you can also get launched because someone  wants you to open document\
+We are emojiArt and some1 wants us to open emojiArt document and we are not running we could get launched to do that you can also setup things where you can get launched when user walks by a dry-cleaner , you can actually register lets place in the world and walk by boom and you will get launched \
+You can also have this activity continuation thing where you are working on EmojiArt on you iPad and then you switch over your iPhone and then in the corner there's a icon you press and now you are right back in EmojiArt where you were \
+Well that might have to launch you \
+You might get a push notification , you are using cloudKit something in your database changed you get woken up to say hey look I got a push notification for you \
+So there's alot of reason you get woken up  and launched and that dictionary will contain all the information you to know about why\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.32.12 PM.png \width14760 \height8340 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+It used to be that in ApplicationWill and DidFinishLaunching we built our UI \
+we created a splitView , we created a navigationController , we put a group viewController  we never do that anymore \
+I only mentioned this because we do it using storyboards , doing it in  ApplicationWill are pre storyboard or someone who never got the storyboard\
+We build our UI in storyboards not in these method \
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.33.31 PM.png \width14620 \height8120 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+next transition comes from other side \
+you where the active app and now you are not going to be active app probably because user clicked on other app \
+\
+This one is ApplicationWillResignActive() \
+because that's what happening here you want to think of this as the pause button , you want to pause whatever is happening in your app right  here so let's say \
+I use example of  asteroid game , you are shooting asteroid , you want your whole asteroid field to pause when you get this \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.37.31 PM.png \width15060 \height8220 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+Next one here is inactive to active \
+\
+\
+ApplicationDidBecomeActive()\
+So you kind of want to have a pause unpause thing\
+with a lot of apps it doesnt make sense , you never pause unpause , they are not that kind of app \
+they just are  what they are so you dont have to do anything but if you have an app where things might make sense to pause this is where you pause and unpause \
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.40.12 PM.png \width14680 \height8380 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+\
+So this 1 is when someone clicked on another app and you have gone through active inactive and now you are going to this background state   \
+\
+UIApplicationDidEnterBackground \
+\
+Its time right here to batten down the hatches \
+Close your files get yourself in the  situation where you could be killed you got about 30 seconds here to prepare to be killed \
+you might not be killed but you might be so you want to not have any files open that are gonna get corrupted if  it get closed or unsaved data in your deck gets closed \
+so close your things up here , you get 30 seconds to do it , you can ask for short extensions of time but if you ask too much the system will stop granting you those extensions\
+So pretty much think about you got 30 seconds or so to get your hatches battened here \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.47.02 PM.png \width14620 \height8280 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+Next one here is applicationWillEnterForeground \
+here you went down the backgroundView you battened down the hatches and you got activated again you didnt get killed \
+here you wanna unbattened down the hatches \
+Open backup the things that you had closed.\
+Now lot of times you dont need to do anything here because you are opening up things that you closed in the battening down hatches on demand anyway \
+If you try to access a file its not open well you will just open it then\
+\
+So often times you dont have to do anything here and I kind of recommend writing code in that way \
+So that you dont really have to ever unbatten down the hatches \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 9.59.52 PM.png \width15080 \height4060 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+So that's all the things that happen and all those things you get radioStationed , all those things you have methods in app the AppDelegate \
+But the AppDelegate does some other things as well \
+for e.g. 
+\b opening URL thing 
+\b0 \
+It can also do 
+\b background fetching
+\b0  (which is kind of cool lets say you have a Twitter Client or something like that  and when someone launches your app you want to show them the latest tweets  well you can actually setup your app to fetch the latest tweets in the background even when your app is not  running and what will happen is it will get launched but it wont come on screen and you will be in that background  state for little bit off time where you are allowed to make a couple of network requests for your 30 seconds or whatever and then you go back to sleep  )\
+So you can do that with your AppDelegate\
+\
+
+\b It also manages data protection
+\b0  (When your device is locked in lockScreen apps cannot see the data its encrypted , its full encrypted , so apps cant do anything if they wanted to )\
+So AppDelegate will tell you what's going on about when you can access the files things like that \
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 UIApplication\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 10.04.50 PM.png \width13500 \height7560 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+UIApplication which the AppDelegate is the delegate of we never subclass UIApplication \
+We use AppDelegate to configure its functionality \
+\
+Or our UIApplication does have a few interesting things like it has a method \
+So you can 
+\b open a URL in an other App
+\b0 \
+So your image gallery and may be you asked to open an EmojiArtDocument you can ask using that openURL \
+\
+Here's where you can 
+\b register for push Notifications 
+\b0  \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+So this is
+\b  something you have to do if you want cloudKit thing to notify you, you have to register for pushNotification there\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 10.05.04 PM.png \width14500 \height8220 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\
+\
+
+\b0 \
+You can set that fetch interval for that background fetching \
+\
+here's where you ask for more time if you are in background mode and you need a little bit  more time to finish up that's happening in UIApplication \
+\
+The little spinner in top left of your device that says there's network activity , that's controller with this bool \
+unfortunately that''s a bool so if you have  multiple threads accessing the network they got to share this bool it's kind of annoying\
+\
+\
+You can also find out about things like how much time  do I have left to run in the background \
+what is that preferred contentSize Category you know that slider for  font size \
+what state I am in foreground or the background where am I? you can find all those things out  with UIApplication \
+\
+\
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 Info.plist\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 10.12.00 PM.png \width13160 \height8540 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 \
+\
+You used it to add that App Transport Security \
+ you can actually edit this in directly in XML \
+right click on it and switch to source as XML\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 10.20.57 PM.png \width13140 \height8580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+you can do that , the only reason you want to do this sometimes you will get snippet of XML from somebody that does something enable something in your plist and your just gonna paste it in here \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 10.21.26 PM.png \width13580 \height8540 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+But usually we dont even edit plist thing directly like we did with AppTransportSecurity \
+we edit in project settings like we did with document types (the document types we had for emojiArtView and for image Gallery we edited  that in Project setting )   \
+The project setting is mostly editing the plist  , info.plist indirectly \
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 Capabilities
+\b0  \
+\
+\
+{{\NeXTGraphic Screen Shot 2019-06-16 at 10.30.52 PM.png \width14280 \height8560 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Capabilities we have that with cloudKit \
+there are certain things to use them you have to turn them on \
+\
+This capabilities tab inside of your project settings like this\
+Some of these things require servers like Apple Pay and iCloud  and Game Center \
+some dont like Maps and the inner App Audio homeKit \
+\
+Things that requires server , you can only turn these things on if you are on membership of Apple Developer Program that cost $99 a year\
+you kinda see why that is because to access these servers technologies  there kind of needs to be stuff in that server that knows about you and this providing your stuff well somebody's got in but they got to know  who you are for real , you cant just be some random Apple ID out there , you want to be registered in the program and the $99 seems to me mostly an administrative fees , it's not very much money for the amount of functionality that you are getting with all these servers , pushing notification all this things \
+It's all covered in 1 $99 per year fee \
+\
+Its a great place to look (RnD)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0  }
