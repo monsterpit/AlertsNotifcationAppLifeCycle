@@ -1,0 +1,314 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 Notification\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 11.01.46 AM.png \width13840 \height7740 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+Model cant talk to its controller\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 Because Model is UI independent  and controller is fundamentally UI dependent
+\b0  , So there's no way from them to talk in that direction\
+Controller can talk to model but not the other way \
+So we have blind structure way of doing it\
+\
+Btw the view also might wanna use  that radio station to its controller\
+Because view also cant talk to its  controller for different reason  (
+\b view is generic and controller is specific
+\b0 )\
+There''s  no way a generic items like button can know anything about  particular controller \
+\
+\
+So both reasons a View and model cant talk to the controller \
+Controller talk to them is okay but other way its not okay \
+But both can use this radio control model \
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 11.43.06 AM.png \width14720 \height7880 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+So notification is just a way you will register a closure to get called when someone broadcast at an named radio station (that's all it is)\
+It's blind , nobody knows whose any classes all we talking about is radio station\
+it's very flexible as you just pop a closure down there and it just calls it when someone broadcast at that radio station  and its also possible to broadcast music in the radiostation\
+In other words when you broadcast you can put information across radiostation as well\
+\
+\
+\
+NotificationCenter is what you use for both to signup to listen to radiostation and to broadcast a radiostation \
+And we always use default shared instance of it , like UserDefaults.standard\
+\
+\
+ This method is called to listen to radiostation is called "addObserver"\
+To observe this radioStation to listen to see if anything is broadcasted \
+\
+It has a return value of NSObjectProtocol \
+\
+forName     Name of the radioStation     (its Notification.Name   not a string )   (when you name it you have to create your own Notification.name if you have to broadcast it ) (But if you want to look and find the radioStation that already exist in iOS and there are dozens of them , iOS is good at broadcasting at lot of radio Station  ) (Notification.name docs to look all notification available in iOS  what they do when they broadcast )  (that's why it's nice they made it a type and not a string so you go can look them up in docs )\
+\
+objects : Any? (that's who's broadcasting on this radioStation because unlike real radioStation multiple people can broadcast on the same frequency , that's perfectly allowed  ) (And that's just say who idid the broadcasting when you are receiving when your closure gets called )\
+\
+queue  (thats what queue you want your closure to be executed on , now this can be nil , but you never want it to be nil , what nil means is execute my queue on same queue as the broadcaster , you do not want that usually , unless you are the broadcaster , if its your own code you want broadcasting may be you want that , but if you are listening to iOS then no you probably want the main queue  )(Now notice that says OperationQueue not dispatch Queue ) (Operation Queue is an Object Oriented way to do dispatch stuff  called Operation and OperationQueue )(Well this is using this OperationQueue) (if you want main Queue which you want 99% of time  just say OperationQueue.main same way you say dispatchQueue.main you say OperationQueue.main )\
+\
+last argument to this closure is Closure and that closure has only 1 argument which is a notification \
+Notification is just a little object that has for e.g. the name of the radioStation  who the broadcaster is , but it also has a very important piece of information called userInfo\
+userInfo is the music that has been broadcasted here  It's type Any  but is always an Dictionary    \
+\
+When you look in documentation Notification.Name to find all the radioStation they will say when we broadcast , we include  following keys in the dictionary , this information\
+So they are very important keys to understand has your closure has this 1 argument notification , you look at the var userInfo in that Notification to get the music that's coming around the radiostation \
+\
+\
+NSObjectProtocol this is a Protocol  that NSobject happens to implement  \
+Its a subset of functionality of NSObject that some object implement that arent subclasses of NSObject ,\
+ So this is kind of subset of all well known things \
+However that's completely irrelevant here doesn't matter , that thing might be Any as might concern \
+All this observer thing is a "Cookie"  that keeps track of that this observation is this thing \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 It's just a cookie to hold on to  , You only do 1 thing with it , which is stop observing 
+\b0 \
+It's how you say I dont wanna listen to that radioStation\
+And you do that by saying Notification.default to remove observer , this cookie \
+Stop  listening \
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 11.46.32 AM.png \width14480 \height4340 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+All Notification.Name they collect them as static lets  (Static let Notification.Name in Notification.Name class)\
+btw you often see them called NSNotification.Name that's the same thing literally type alias to eachother \
+In swift world we would call it Notification.name  and in Objective C world NSNotification.Name  they are same exact thing \
+\
+If you wanna create your own RadioStation we actually \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 Creating an extension to NSNotification.Name and adding your own static let  which is 
+\b0 \
+your thing = Notification.Name(String)\
+\
+That way you will be collected in exactly same API realm as all the other Notifications\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+Listening to radioStation\
+\
+remember when slider changes of accessibility font you can find out because radioStation broadcast anytime that changes \
+So if you have anything in you UI whose  font is based on that \
+for e.g. we had cool thing of doing collectionView on the top of emojiArt having its emoji get bigger or smaller based on slider which would not be that hard to do \
+
+\b Rnd
+\b0  (Do it has a exercise ) main thing we have to is have our cell size be fixed to this font Size by doing little font metric scaling and we would also have to have a
+\b  layout contraint for the height
+\b0  of our collectionView that we would want to set in the code to be the height of the cell because remember that our cells cant be larger than our collectionView so we had to make the like collectionView bigger and  the cells but we can easily do that but if we did that we would definitely want to be listening to this radioStation because every-time that font changes we have to 
+\b relayout
+\b0   our collectionView \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 12.42.25 PM.png \width15200 \height7440 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+We get NotificationCenter.default\
+observer var which we set to addObserver \{name of that radioStation , listening from Application.shared that's application object you can put nil any1 braodcats you are interested, we want main thread \} closure we want collectionView to redraw \
+In notification we would have find out contentSize category and so there's names for all those on the slider like UIContentSizeCategory  small , UICategorySizeLarge , UIContentSizeAccessibilityLarge which is even larger and there's like very large and extra large , there are different size\
+You probably wont want to look at that , for e.g. in collectionView   e.g. just going to resize the font based on the font metric (remember how we doscvlae font mertic based on UIMetrics you just cause that  to recalculate )\
+\
+Notice we hold on to the var observer there and then I remove it when I am done \
+\
+So when do I add And when do I remove observing?\
+Well you are almost doing it when you are doing it as a part of viewcontroller \
+So perfect time  when you will get viewWillAppear or ViewDidAppear you addObserver  and on viewWillDisappear or viewDidDisappear you remove the observer\
+Its because you are only interested in getting those  changes while you are on screen \
+Now while you do that size might change will you are off screen \
+So when you will get viewWillAppear you probably also wanna look at the size category which you can do UIApplication has a var for that and adjust your collectionView there\
+ before you appear but it's kind of a waste for listening to all that changes all the time and changing things when you are not even in the screen \
+So viewWillAppear and viewWillDisappear is great place to put addObserver or removeObserver pairs, always pair those  things dont forget to remove observer \
+\
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 How about broadcasting on your own radioStation ?\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 1.05.42 PM.png \width14560 \height6240 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b0 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+You do that with notificationCenter as well \
+The method there is called post \
+\
+first argument is name of radioStation you get to make  that up \
+object that's you , that's who's sending it usually self you can make it any object you want but that''s who NotificationCenter will report as a sender to the broadcaster and then \
+userInfo  that's your music almost everytime you wanna put it has dictionary i.e. [AnyHashable : Any]\
+So as soon as you call this method it will immediately call all the closures for that have addObserver to your radioStation with following caveat It's only going to call immediately if they specified the queue nil because then just gonna execute their closures on the same queue as this \
+If they specified different queue like main queue then its gonna post their closure to execute and they will execute as soon as that queue gets arounbd to their closure \
+\
+\
+\
+\
+\
+ \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 KVO\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 2.59.08 PM.png \width14240 \height7880 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b0 \cf0 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 Its not a major important thing you are gonna do this \
+its not a primary thing to do stuff Notification is a primary stuff to do things\
+Its because its kinda a limited a lit bit in its application \
+\
+So what is KVO ??\
+The basic idea is r
+\b egistering a closure that gets executed when a property on a  subclass of NSObject changes that's pretty
+\b0  much what it is..\
+\
+To make KVO work , you cant just have any property and you can change it and someone can register a closure \
+Think about the overhead of doing that \
+we would not want  that for every property  alot of properties are probably the axis is inlined by the compiler , so there's no way you will be able to do  that \
+ So there's a mechanism that's required to do this \
+now NSObject (its root of all iOS classes so UIViewController , UIView they all eventually inherit from NSObject)\
+So NSObject puts this mechanism that's make it possible to watch a property into it\
+So that's why I say this is for subclass of NSObject you could put this mechanism in your own object however , its not that difficult , but people usually dont   (RnD)\
+They generally use the mechanism of using NSObject by having their thing whatever it is their class subclass from NSObject  by having their  thing whatever it is their class subclass from NSObject \
+first thing to understand that there's some mechanism there that you would have to implement if you didnt want to sub classing this object \
+\
+What does this thing good for ?\
+Well its kind of good for some of  the same things as notification  (blind structured notification between things especially between models and controllers but also between views and controller or even between view and  itself)\
+Not every property work with KVO  (for a property to work with it not only do you need the NSObject mechanism but the property has to be  what's called 
+\b Key value coding complian
+\b0 t ) now what that means is that property can be set by sending set value for key where the key is  the keyPath of that property and get value for key to get it \
+In other words there's this functions set value for key and value for key that you can call to get the value of the property that has to be possible n the object that has to work if you want to do it and that's called key value , key coding compliant \
+So that properry has to be that way \
+\
+Now you have to do some work to make that happen \
+Properties dont just magically make that work you should have to implement something like \
+value(forKey)   and setValue(forKey) to make that work \
+\
+Now there are few properties scattered throughout iOS that are key value observing , that work  with key value observing \
+Most notable in UIView center and frame are key value observing so you can observe the center or the frame  and you can find out when it moves\
+Also most of the properties in CALayer underneath UIView remember the place where we put the border around the view , that layer that doing alot of drawing for UIView , that layer is mostly key value observing compliant \
+So you can observe things happening in that layer as well and then they are scattering in other places \
+for e.g. CorerData (object oriented database) key/ value observing can be really big there , you can watch everything happening in your database on a per property basis by using key value observing \
+So there's some framework that actually uses KVO alot \
+But for most of the part we  dont use it in main line that much \
+\
+(RnD)And ofcourse you can make your own NSObject subclass that implements this stuff \
+\
+\
+\
+\
+\
+\
+So does it work , what does KVO look like???\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-06-16 at 2.59.16 PM.png \width14000 \height6180 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+There's a 
+\b very important method that NSObject
+\b0  provides for you called 
+\b observe
+\b0  \
+So observe takes a 
+\b key path 
+\b0 as  an argument and 
+\b a closure and it executes that closure whenever that key path changes\
+
+\b0 Only work for key paths that are key value coding compliant  \
+Notice it returns a little cookie\
+observation , its little different  than notification though you never say removeObserver on that cookie \
+Instead when that cookie goes out of the heap it stop observing it \
+So has long as you want this observation closure to keep observing that thing just keep that cookie in the heap as soon as you let it go out of heap , it will stop observing \
+\
+Now arguments you see to your closure ofcourse you get the thing that's being observed handed back to you \
+Also get distinct change that change is of type NSKeyValueObservedChange and that's a little object that you can get the oldValue of thing the newValue of the thing that changed that kind of stuff \
+It just basically tells you about the change that happened that caused your closure to get called \
+this keyPath argument is not a string, it used to be string in old days , nowadays its a typed thing in Swift and has special syntax which is   " \\
+\b Type.nameOfProperty
+\b0  "\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 Now swift will infer the type for you  , so we almost always say  " \\.nameOfProperty"
+\b0 \
+So for  e.g.
+\b  if we wanna  observe the center or the frame of the view
+\b0  we would say 
+\b observe(\\.frame)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 that would be observing view's frame\
+\
+\
+\
+Anything that happens with delegate is blind structured communication , well you could do that with the notification just by having a radio station which is the EmojiArtView something changed radioStation and the controller will just tune in and everytime it hears a broadcast on that it will tell its UIDocument something changed that's what I heard\
+on the radio station and so that's what we  gonna there and then KVO\
+there's a great use  of KVO here \
+Right now I have to go down where my gestures are remember I dragged in some gestures code\
+I had to go in there for everytime a gesture changed the position of emoji , I had to tell my delegate something changed \
+tell them So I added alot of code in there for that so I am just gonna rip all that code out and instead I am gonna observe the center of my Emoji and when my emoji is moved or even when they are resized because when they are resized they have to be repositioned because they grow from upper left corner its keeping it reposition\
+ So I am always setting the center again , So I am just gonna observe that and when that  happens then I will broadcast on my radioStation \
+So that will collect that code into one  place and keep it from the spread out through all over my a messy way\
+\
+\
+We are gonna do simple Notification thing which is I am just going to observe the state of my UIDocument changing \
+you know how  our UIDocument goes to these document state normal ,closed ,progress available , when its reading and writing saving \
+remember all those states we gonna watch  that happen \
+}
