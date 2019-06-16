@@ -178,7 +178,12 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
              
              */
             
-            self.document?.close()
+            //removing observer when document is closed
+            self.document?.close{ success in
+                if let observer = self.documentObserver{
+                    NotificationCenter.default.removeObserver(observer)
+                }
+            }
             
         }
         
@@ -186,10 +191,52 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
         
     }
     
+    // its just a cookie you never send a message to it
+    private var documentObserver : NSObjectProtocol?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-       
+       /*
+         Cocoa Touch in Swift 4 uses global NSNotification.Name namespace to declare notification name constants:
+         // UIApplication
+         
+         extension NSNotification.Name {
+         
+         public static let UIApplicationDidChangeStatusBarOrientation: NSNotification.Name
+         }
+         
+         In Swift 4.2 constants are nested with type:
+         extension UIApplication {
+         
+         public class let didChangeStatusBarOrientationNotification: NSNotification.Name
+         }
+         
+         // Swift 4
+         Notification.Name.UIApplicationDidChangeStatusBarOrientation // Full
+         .UIApplicationDidChangeStatusBarOrientation // Short
+         
+         // Swift 4.2
+         UIApplication.didChangeStatusBarOrientationNotification
+         
+         In Swift 4.2 you must use Type.constantName syntax. This makes it more structured, but we loose short syntax and ability to introspect all notifications on theNotification.Name type.
+         
+         https://medium.com/@dmytro.anokhin/notification-in-swift-d47f641282fa
+ */
+        
+        //Threating app to switch will make it save like switching app
+        documentObserver = NotificationCenter.default.addObserver(
+            forName: UIDocument.stateChangedNotification,   //NSNotification.Name.UIDocumentStateChanged  Swift4 //listening to
+            object: document,                  // interested on broadcast from document
+            queue: OperationQueue.main,       // main queue
+            using: { (notification) in
+                //It would have some music userInfo but we dont want it
+                print("documentState changed to \(self.document!.documentState)")
+        }
+        )
+        
+        //here we started listening to document even before its open
+        
        //  When our view first appears we need to open our document so
         document?.open(completionHandler: { (success) in
             
