@@ -145,9 +145,9 @@ for e.g. we had cool thing of doing collectionView on the top of emojiArt having
 \
 \
 We get NotificationCenter.default\
-observer var which we set to addObserver \{name of that radioStation , listening from Application.shared that's application object you can put nil any1 braodcats you are interested, we want main thread \} closure we want collectionView to redraw \
+observer var which we set to addObserver \{name of that radioStation , listening from Application.shared that's application object you can put nil any1 broadcast you are interested, we want main thread \} closure we want collectionView to redraw \
 In notification we would have find out contentSize category and so there's names for all those on the slider like UIContentSizeCategory  small , UICategorySizeLarge , UIContentSizeAccessibilityLarge which is even larger and there's like very large and extra large , there are different size\
-You probably wont want to look at that , for e.g. in collectionView   e.g. just going to resize the font based on the font metric (remember how we doscvlae font mertic based on UIMetrics you just cause that  to recalculate )\
+You probably wont want to look at that , for e.g. in collectionView   e.g. just going to resize the font based on the font metric (remember how we do scale font metric based on UIMetrics you just cause that  to recalculate )\
 \
 Notice we hold on to the var observer there and then I remove it when I am done \
 \

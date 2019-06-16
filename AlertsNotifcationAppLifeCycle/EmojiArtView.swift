@@ -28,6 +28,12 @@ protocol EmojiArtViewDelegate : class {
     func emojiArtViewDidChange(_ sender : EmojiArtView)
 }
 
+extension Notification.Name{
+    
+    static let EmojiArtViewDidChange = Notification.Name("EmojiArtViewDidChange")
+    
+}
+
 class EmojiArtView: UIView,UIDropInteractionDelegate {
     
     // MARK: - Delegation
@@ -78,6 +84,10 @@ class EmojiArtView: UIView,UIDropInteractionDelegate {
                 self.addLabel(with : attributedString, centeredAt : dropPoint)
                 
                 self.delegate?.emojiArtViewDidChange(self)
+                
+                //Notification.Name.EmojiArtViewDidChange btw swift can infer this
+                NotificationCenter.default.post(name: .EmojiArtViewDidChange, object: self)
+                
             }
             
         }

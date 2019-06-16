@@ -46,7 +46,7 @@ extension EmojiArt.EmojiInfo{
 }
 
 
-class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate , UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout , UICollectionViewDragDelegate,UICollectionViewDropDelegate , EmojiArtViewDelegate{
+class EmojiArtViewController: UIViewController,UIDropInteractionDelegate,UIScrollViewDelegate , UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout , UICollectionViewDragDelegate,UICollectionViewDropDelegate {
 
     //MARK: - Model
     
@@ -165,6 +165,13 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
         // the rest of this method is unchanged from previous
        // save()
         
+        //stop listening to it whether or not we successful clsoe because we gonna get dismissed
+        if let observer = emojiArtViewObserver{
+            NotificationCenter.default.removeObserver(observer)
+        }
+        //This is little simplier than delegation you dont have to set delegate you dont have to set thta function you just start listening and stop listening
+        //That's why we use notification in place where other times we have used delegations
+        
         //utility
         if document?.emojiArt != nil{
         document?.thumbnail = emojiArtView.snapshot
@@ -190,6 +197,9 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
 
         
     }
+    
+    
+    private var emojiArtViewObserver : NSObjectProtocol?
     
     // its just a cookie you never send a message to it
     private var documentObserver : NSObjectProtocol?
@@ -247,6 +257,14 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
                 
                 self.emojiArt = self.document?.emojiArt
                 
+                self.emojiArtViewObserver = NotificationCenter.default.addObserver(
+                    forName: .EmojiArtViewDidChange,      // name of radioStation
+                    object: self.emojiArtView,           //broadcast you are  interested in
+                    queue: OperationQueue.main,     //this would not to be in main because all i am gonna do is tell my document which is extended part of my model tell it  that it change we can put it here is nil i am here Ik dragged or dropped we are on main queue
+                    using: { (notification) in   // turn's on emojiArt doesnt play music on when it broadcast it could it could send label or something when but it doesnt that ok because all we wanna know is document change
+                        self.documentChanged()
+                })
+                
             }
         })
 
@@ -290,15 +308,10 @@ and any time someone sets my model I am gonna go update my UI to be like that wa
     
     // when we create our EmojiArtView, we also set ourself as its delegate
     // so that we can get emojiArtViewDidChange messages sent to us
-    lazy var emojiArtView : EmojiArtView = {
-        let eav = EmojiArtView()
-        eav.delegate = self
-        return eav
-    }()
+    lazy var emojiArtView = EmojiArtView()
+
     
-    func emojiArtViewDidChange(_ sender: EmojiArtView) {
-        documentChanged()
-    }
+
     
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
